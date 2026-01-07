@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Profile - Financial Advisor AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f7f8fa;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 32px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.2s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        button {
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .info-box {
+            background: #eff6ff;
+            border-left: 4px solid #667eea;
+            padding: 16px;
+            margin-bottom: 24px;
+            border-radius: 4px;
+        }
+        
+        .info-box p {
+            color: #1e40af;
+            font-size: 14px;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💰 Complete Your Financial Profile</h1>
+        <p class="subtitle">Help us provide personalized financial advice</p>
+        
+        <div class="info-box">
+            <p><strong>Why we need this:</strong> Your financial profile helps our AI advisor provide accurate, personalized recommendations for investments, savings, and debt management.</p>
+        </div>
+        
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+        
+        <form method="POST" action="/setup-profile">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="income">Monthly Income (₹)</label>
+                    <input type="number" id="income" name="income" 
+                           value="{{ profile.income if profile else '' }}" 
+                           step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="emi">Total Monthly EMI (₹)</label>
+                    <input type="number" id="emi" name="emi" 
+                           value="{{ profile.emi if profile else '' }}" 
+                           step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="emergency_fund">Emergency Fund (₹)</label>
+                    <input type="number" id="emergency_fund" name="emergency_fund" 
+                           value="{{ profile.emergency_fund if profile else '' }}" 
+                           step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" name="age" 
+                           value="{{ profile.age if profile else '' }}" 
+                           min="18" max="100">
+                </div>
+                
+                <div class="form-group">
+                    <label for="occupation">Occupation</label>
+                    <input type="text" id="occupation" name="occupation" 
+                           value="{{ profile.occupation if profile else '' }}" 
+                           placeholder="e.g., Software Engineer">
+                </div>
+                
+                <div class="form-group">
+                    <label for="risk_tolerance">Risk Tolerance</label>
+                    <select id="risk_tolerance" name="risk_tolerance">
+                        <option value="conservative" {% if profile and profile.risk_tolerance == 'conservative' %}selected{% endif %}>Conservative</option>
+                        <option value="moderate" {% if not profile or profile.risk_tolerance == 'moderate' %}selected{% endif %}>Moderate</option>
+                        <option value="high" {% if profile and profile.risk_tolerance == 'high' %}selected{% endif %}>High</option>
+                        <option value="aggressive" {% if profile and profile.risk_tolerance == 'aggressive' %}selected{% endif %}>Aggressive</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="investment_experience">Investment Experience</label>
+                    <select id="investment_experience" name="investment_experience">
+                        <option value="beginner" {% if not profile or profile.investment_experience == 'beginner' %}selected{% endif %}>Beginner</option>
+                        <option value="intermediate" {% if profile and profile.investment_experience == 'intermediate' %}selected{% endif %}>Intermediate</option>
+                        <option value="advanced" {% if profile and profile.investment_experience == 'advanced' %}selected{% endif %}>Advanced</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group full-width">
+                <label for="financial_goals">Financial Goals</label>
+                <textarea id="financial_goals" name="financial_goals" 
+                          placeholder="e.g., Buy a house in 5 years, Retire at 50, Children's education fund...">{{ profile.financial_goals if profile else '' }}</textarea>
+            </div>
+            
+            <button type="submit">Save Profile & Continue</button>
+        </form>
+    </div>
+</body>
+</html>
+

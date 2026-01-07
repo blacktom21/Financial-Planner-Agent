@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Expense - Financial Advisor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f7f8fa;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 32px;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.2s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+        }
+        
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .info-box {
+            background: #eff6ff;
+            border-left: 4px solid #667eea;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #1e40af;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+        <h1>💰 Add Expense</h1>
+        <p class="subtitle">Track your expenses in detail to get better financial insights</p>
+        
+        <div class="info-box">
+            <strong>Why track details?</strong> More information helps our AI advisor provide better recommendations for expense management and savings.
+        </div>
+        
+        <form id="expenseForm">
+            <div class="form-group">
+                <label for="category">Category *</label>
+                <select id="category" required>
+                    <option value="">Select category</option>
+                    <option value="Food & Dining">Food & Dining</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Bills & Utilities">Bills & Utilities</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Education">Education</option>
+                    <option value="Rent">Rent</option>
+                    <option value="EMI">EMI</option>
+                    <option value="Insurance">Insurance</option>
+                    <option value="Personal Care">Personal Care</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="subcategory">Subcategory (Optional)</label>
+                <input type="text" id="subcategory" placeholder="e.g., Groceries, Restaurants, Fuel, etc.">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="amount">Amount (₹) *</label>
+                    <input type="number" id="amount" step="0.01" min="0" required placeholder="0.00">
+                </div>
+                
+                <div class="form-group">
+                    <label for="date">Date *</label>
+                    <input type="date" id="date" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="payment_method">Payment Method</label>
+                <select id="payment_method">
+                    <option value="">Select payment method</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Debit Card">Debit Card</option>
+                    <option value="UPI">UPI</option>
+                    <option value="Net Banking">Net Banking</option>
+                    <option value="Wallet">Wallet (Paytm, PhonePe, etc.)</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description (What did you spend on?)</label>
+                <textarea id="description" placeholder="e.g., Monthly groceries from Big Bazaar, Movie tickets, etc."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="is_recurring">
+                    <label for="is_recurring" style="margin: 0; font-weight: normal;">This is a recurring expense (rent, subscription, etc.)</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="tags">Tags (Optional - comma separated)</label>
+                <input type="text" id="tags" placeholder="e.g., essential, luxury, work-related">
+            </div>
+            
+            <button type="submit">Add Expense</button>
+        </form>
+    </div>
+    
+    <script>
+        // Set default date to today
+        document.getElementById('date').valueAsDate = new Date();
+        
+        document.getElementById('expenseForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const currentDate = new Date(document.getElementById('date').value);
+            const month = currentDate.toISOString().slice(0, 7); // YYYY-MM format
+            
+            const expenseData = {
+                category: document.getElementById('category').value,
+                subcategory: document.getElementById('subcategory').value || null,
+                amount: parseFloat(document.getElementById('amount').value),
+                date: document.getElementById('date').value,
+                month: month,
+                description: document.getElementById('description').value || null,
+                payment_method: document.getElementById('payment_method').value || null,
+                is_recurring: document.getElementById('is_recurring').checked,
+                tags: document.getElementById('tags').value ? document.getElementById('tags').value.split(',').map(t => t.trim()) : null
+            };
+            
+            try {
+                const response = await fetch('/api/expenses/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(expenseData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    alert('Expense added successfully!');
+                    document.getElementById('expenseForm').reset();
+                    document.getElementById('date').valueAsDate = new Date();
+                    // Optionally redirect to dashboard
+                    // window.location.href = '/dashboard';
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                alert('Error adding expense: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
+

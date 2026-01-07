@@ -1,0 +1,33 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Python files
+*.py text eol=lf
+
+# Markdown files
+*.md text eol=lf
+
+# SQL files
+*.sql text eol=lf
+
+# HTML files
+*.html text eol=lf
+
+# JavaScript files
+*.js text eol=lf
+
+# CSS files
+*.css text eol=lf
+
+# Configuration files
+*.txt text eol=lf
+*.ini text eol=lf
+*.cfg text eol=lf
+
+# Binary files
+*.db binary
+*.sqlite binary
+*.sqlite3 binary
+*.pyc binary
+*.pyd binary
+
